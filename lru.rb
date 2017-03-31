@@ -56,10 +56,11 @@ class DoublyLinkedList
   def add_node(key, data)
     new_node = Node.new(key, data)
 
-    if @head.nil?
+    if @tail.nil?
       @tail = new_node
     else
       new_node.next = @head
+      @head.prev = new_node
     end
 
     @head = new_node
@@ -81,8 +82,14 @@ class DoublyLinkedList
   end
 
   def truncate
-    @tail.prev.next = nil
-    @tail = @tail.prev
+    return if @size == 0
+
+    if @size == 1
+      @head = @tail = nil
+    else
+      @tail.prev.next = nil
+      @tail = @tail.prev
+    end
 
     @size -= 1
   end
